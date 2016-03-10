@@ -1,0 +1,12 @@
+[Unit]
+Description=Ethereum Stratum Proxy
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python -u /opt/eth-proxy/eth-proxy.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
