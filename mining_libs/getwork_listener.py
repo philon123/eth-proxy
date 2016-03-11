@@ -1,5 +1,6 @@
 import json
 import time
+import os
 
 from twisted.internet import defer, threads
 from twisted.web.resource import Resource
@@ -7,8 +8,6 @@ from twisted.web.server import NOT_DONE_YET
 
 import stratum.logger
 log = stratum.logger.get_logger('proxy')
-
-exit_immediately = False
 
 class Root(Resource):
     isLeaf = True
@@ -44,7 +43,7 @@ class Root(Resource):
             if self.getWorkCacheTimeout["work"]==self.job_registry.jobs.params[0] and int(time.time())-self.getWorkCacheTimeout["time"]>=self.job_registry.coinTimeout:
                 log.warning('Job timeout. Proxy is waiting for an updated job. Please restart proxy!')
                 response = self.json_error(data.get('id', 0), "Job timeout. Proxy is waiting for an updated job...")
-                exit_immediately = True
+                os.system('service eth-proxy restart')
             else:
                 if self.getWorkCacheTimeout["work"]!=self.job_registry.jobs.params[0]:
                     self.getWorkCacheTimeout = {"work":self.job_registry.jobs.params[0],"time":int(time.time())}
