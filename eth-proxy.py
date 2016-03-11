@@ -164,6 +164,11 @@ def main():
         log.warning("Email monitoring disabled")
     log.warning("Failover enabled: %s" % settings.POOL_FAILOVER_ENABLE)
     log.warning("-----------------------------------------------------------------------")
+	
+	while True:
+		if getwork_listener.exit_immediately:
+			exit()
+		time.sleep(1)
 
 if __name__ == '__main__':
     fp = file("eth-proxy.pid", 'w')
